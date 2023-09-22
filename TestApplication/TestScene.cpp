@@ -83,8 +83,8 @@ void TestScene::onUpdate(double deltaTime)
 		ball->getTransform()->setLocalScale({ 20.0f, 20.0f, 0.0f });
 		ball->getTransform()->setLocalPosition(mousePosition);
 		GameGraphics::ShapeComponent* shape = ball->addComponent<GameGraphics::ShapeComponent>();
-		shape->setShapeType(GameGraphics::CUBE);
-		ball->addComponent<GamePhysics::AABBColliderComponent>()->setSize(ball->getTransform()->getLocalScale());
+		shape->setShapeType(GameGraphics::CIRCLE);
+		ball->addComponent<GamePhysics::CircleColliderComponent>()->setRadius(ball->getTransform()->getLocalScale().x);
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<uint32_t> dis(0, UINT32_MAX);
