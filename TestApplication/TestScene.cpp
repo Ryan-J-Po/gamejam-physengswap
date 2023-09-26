@@ -59,7 +59,7 @@ void TestScene::onStart()
 
 	immovableObject = new GameEngine::GameObject();
 	immovableObject->getTransform()->setLocalScale({ 50.0f, 50.0f, 0.0f });
-	immovableObject->getTransform()->setLocalPosition({ 380, 300, 0 });
+	immovableObject->getTransform()->setLocalPosition({ 700, 300, 0 });
 	immovableObject->addComponent<GameGraphics::ShapeComponent>()->setShapeType(GameGraphics::CUBE);
 	immovableObject->addComponent<GamePhysics::AABBColliderComponent>()->setSize(immovableObject->getTransform()->getLocalScale());
 
@@ -94,7 +94,7 @@ void TestScene::onUpdate(double deltaTime)
 		rigidBody->setStaticFrictionCoefficient(0.3f);
 		rigidBody->setDynamicFrictionCoefficient(0.15f);
 
-		rigidBody->setElasticity(0.0f);
+		rigidBody->setElasticity(1.0f);
 		rigidBody->setMass(1.0f);
 		GameMath::Vector3 direction = (immovableObject->getTransform()->getGlobalPosition() - mousePosition).getNormalized();
 		rigidBody->applyForce(direction * 200);
@@ -102,6 +102,26 @@ void TestScene::onUpdate(double deltaTime)
 		
 
 		addGameObject(ball);
+	}
+
+	if (IsMouseButtonPressed(0))
+	{
+		GameEngine::GameObject* platform = new GameEngine::GameObject();
+		platform->getTransform()->setLocalScale({ 50.0f, 10.0f, 0.0f });
+		platform->getTransform()->setLocalPosition({ (float)GetMouseX(), (float)GetMouseY(), 0 });
+		GameGraphics::ShapeComponent* shape = platform->addComponent<GameGraphics::ShapeComponent>();
+		shape->setColor(0x0FF000FF);
+		shape->setShapeType(GameGraphics::CUBE);
+		platform->addComponent<GamePhysics::AABBColliderComponent>()->setSize(platform->getTransform()->getLocalScale());
+
+		GamePhysics::RigidBodyComponent* rigidBody = platform->addComponent<GamePhysics::RigidBodyComponent>();
+		rigidBody->setStaticFrictionCoefficient(40.0f);
+		rigidBody->setDynamicFrictionCoefficient(100.0f);
+
+		rigidBody->setIsKinematic(true);
+		
+
+		addGameObject(platform);
 	}
 }
 	
